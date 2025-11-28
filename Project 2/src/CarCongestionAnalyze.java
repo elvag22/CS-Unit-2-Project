@@ -11,7 +11,18 @@ public class CarCongestionAnalyze {
         ArrayList<Integer> westbound  = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader("Car Counter (c_s) - Sheet1.csv"))) {
             String line;
+            boolean first = true;
             while ((line = br.readLine()) != null) {
+                if (first == true) {
+                    first = false;
+                } else {
+                    int firstcomma =  line.indexOf(',');
+                    int secondcomma = line.indexOf(',', firstcomma + 1);
+                    int thirdcomma = line.indexOf(',', secondcomma + 1);
+
+                    int north = Integer.parseInt(line.substring(0, firstcomma)
+
+                }
 
             }
         } catch (IOException e) {
