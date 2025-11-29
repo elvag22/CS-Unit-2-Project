@@ -48,7 +48,29 @@ public class CarCongestionAnalyze {
         for (double value : list) sum += value;
         return (double) sum / list.size();
     }
-    
+    public static double slope(ArrayList<Integer> list) {
+        int lastnum = list.get(list.size() - 1);
+        int secondlastnum = list.get(list.size() - 2);
+        return (secondlastnum - lastnum);
+
+    }
+    public static void predicton(ArrayList<Integer> list, double slope) {
+        int last = list.get(list.size() - 1);
+        for (int i = 1; i <= 5; i++) {
+            double predicted = last + (slope * i);
+            System.out.println("It's predicted that there will be" + i + "cars: " + predicted);
+
+
+
+        }
+    }
+    public static void lightsuggestion(double average, double slope) {
+        int greeTLight;
+
+    }
+
+
+
 
 
     }
