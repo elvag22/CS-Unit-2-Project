@@ -20,14 +20,35 @@ public class CarCongestionAnalyze {
                     int secondcomma = line.indexOf(',', firstcomma + 1);
                     int thirdcomma = line.indexOf(',', secondcomma + 1);
 
-                    int north = Integer.parseInt(line.substring(0, firstcomma)
+                    int north = Integer.parseInt(line.substring(0, firstcomma).trim());
+                    int south = Integer.parseInt(line.substring(firstcomma + 1, secondcomma).trim());
+                    int east = Integer.parseInt(line.substring(secondcomma + 1, thirdcomma).trim());
+                    int west = Integer.parseInt(line.substring(thirdcomma + 1).trim());
 
+                    northbound.add(north);
+                    southbound.add(south);
+                    eastbound.add(east);
+                    westbound.add(west);
                 }
-
             }
+
         } catch (IOException e) {
             System.err.println("Error: " + e.getMessage());
         }
+        read("Northbound", northbound);
+        read("Southbound", southbound);
+        read("Eastbound", eastbound);
+        read("Westbound", westbound);
+    }
+    public static void read(String name, ArrayList<Integer> list) {
+        System.out.println("-{" + name + "}-");
+    }
+    public static double average(ArrayList<Integer> list) {
+        double sum = 0;
+        for (double value : list) sum += value;
+        return (double) sum / list.size();
+    }
+    
+
 
     }
-}
