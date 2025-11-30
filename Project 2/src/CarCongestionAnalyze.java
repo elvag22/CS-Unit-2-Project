@@ -2,9 +2,42 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.Scanner;
+
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+
 
 public class CarCongestionAnalyze {
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Welcome to the car congestion analysis program, would you like to learn abiut car congestion before we start? (yes/no)\nUser:");
+        String LearnChoice = sc.nextLine().trim().toLowerCase();
+         if (LearnChoice.equals("yes")){
+             System.out.println("Traffic congestion occurs when too many cars use the same road at the same time. This causes delays, sfaety hazards, and decreased productivity. \nUsually,traffic managers would use IR sensors to sense how many cars are in the same road");
+         }
+         else if (LearnChoice.equals("no")){
+             System.out.println("Okay, let's continue to the next step");
+         }
+         else{
+             System.out.println("Invalid input. Try again");
+         }
+        System.out.println("Would you like to start analyzing current traffic? (yes/no) \nUser:");
+         String analyzeChoice = sc.nextLine().trim().toLowerCase();
+         if (analyzeChoice.equals("yes")){
+             System.out.println("Below is the current analysis at North,South,West,and Easr bounds");
+         }
+         else if (analyzeChoice.equals("no")){
+             System.out.println("Thank you for using this program, safe driving!");
+             return;
+         }
+         else {
+             System.out.println("Invalid input. Try again");
+             return;
+         }
         ArrayList<Integer> northbound = new ArrayList<>();
         ArrayList<Integer> southbound = new ArrayList<>();
         ArrayList<Integer> eastbound = new ArrayList<>();
@@ -39,13 +72,18 @@ public class CarCongestionAnalyze {
         read("Southbound", southbound);
         read("Eastbound", eastbound);
         read("Westbound", westbound);
+
+        createGraph("Northbound cars", northbound);
+        createGraph("Southbound cars", southbound);
+        createGraph("Eastbound cars", eastbound);
+        createGraph("Westbound cars", westbound);
     }
 
     public static void read(String name, ArrayList<Integer> list) {
         System.out.println("-{" + name + "}-");
         double average = average(list);
         System.out.println("Average of cars is: " + average);
-        if (average >= 30)
+        if (average > 30)
             System.out.println("Traffic Level is high right now");
         else
             System.out.println("Traffic Level is low right now");
@@ -73,9 +111,9 @@ public class CarCongestionAnalyze {
     }
 
     public static void predicton(ArrayList<Integer> list, double slope) {
-        int last = list.get(list.size() - 1);
+        int lastNum = list.get(list.size() - 1);
         for (int i = 1; i <= 5; i++) {
-            double predicted = last + (slope * i);
+            double predicted = lastNum + (slope * i);
             System.out.println("Predicted cars in " + i + " minutes: " + predicted);
 
         }
@@ -88,4 +126,26 @@ public class CarCongestionAnalyze {
         else greenLight = 25;
         System.out.println("Recommended green light is: " + greenLight + " seconds");
     }
+
+    public static void createGraph(String name, ArrayList<Integer> list) {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        for (int i = 0; i < list.size(); i++) {
+            dataset.addValue(list.get(i), name, "T" + (i + 1));
+        }
+
+        JFreeChart chart = ChartFactory.createLineChart(
+                name + " Traffic per minute",
+                "Time",
+                "Number of Cars",
+                dataset
+        );
+
+        javax.swing.JFrame frame = new javax.swing.JFrame(name + " Chart");
+        frame.setContentPane(new ChartPanel(chart));
+        frame.setSize(800, 600);
+        frame.setVisible(true);
+    }
 }
+
+
