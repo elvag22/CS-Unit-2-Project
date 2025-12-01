@@ -2,7 +2,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Scanner;
 
 import org.jfree.chart.JFreeChart;
@@ -87,12 +86,12 @@ public class CarCongestionAnalyze {
             System.out.println("Traffic Level is high right now");
         else
             System.out.println("Traffic Level is low right now");
-        double slope = slope(list);
+        double slope = slopes(list);
         System.out.println("The trend of cars right now is " + slope);
 
         System.out.println("Predicted next 5 minutes:");
         predicton(list, slope);
-        lightsuggestion(average, slope);
+        lightsuggestion(average);
 
 
     }
@@ -119,7 +118,7 @@ public class CarCongestionAnalyze {
         }
     }
 
-    public static void lightsuggestion(double average, double slope) {
+    public static void lightsuggestion(double average) {
         int greenLight;
         if (average >= 35) greenLight = 50;
         else if (average >= 25) greenLight = 40;
